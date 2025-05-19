@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-
 ENGINE="ffmpeg"
 VIEWER="ristretto"
 RESOLUTION="800x600"
 
 # Directory for generated images
-output_dir="$HOME/ent"
+output_dir="/media/struct3/ent"
 mkdir -p "$output_dir"
 latest_file="" # Variable to track the latest generated image
 
@@ -69,6 +68,7 @@ generate_image() {
 
     # Generate the image
     error_file=$(mktemp)
+
     if $ENGINE -y -f lavfi -i "${input}" \
            -vf "${filter_chain}" \
            -frames:v 1 "$output_file" 2>"$error_file"; then
