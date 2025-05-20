@@ -1,6 +1,4 @@
 #!/usr/bin/env fish
-# filepath: /media/struct1/code/ent/ent.fish
-
 set ENGINE "ffmpeg"
 set VIEWER "ristretto"
 set RESOLUTION "800x600"
