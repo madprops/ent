@@ -1,0 +1,1 @@
+configure the image viewer and output path and just run it.
