@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 set ENGINE "ffmpeg"
-set VIEWER "ristretto"
+set VIEWER "/home/yo/path/timba"
 set RESOLUTION "800x600"
 
 # Directory for generated images
@@ -137,25 +137,27 @@ end
 
 # Main script execution
 if test (count $argv) -eq 0
-    # Single image mode
-    generate_image
-    start_viewer
+    set delay 240
 else
-    # Auto refresh mode
     set delay $argv[1]
+end
 
-    # Generate first image and start viewer
-    generate_image >/dev/null
-    start_viewer
+echo "Delay: $delay seconds" >&2
 
-    echo "Starting auto-generation loop every $delay seconds. Press Ctrl+C to stop." >&2
+# Generate first image and start viewer
+set output_file (generate_image)
+set -g latest_file "$output_file"  # Ensure latest_file is set
+start_viewer
 
-    while true
-        # Generate new image immediately
-        generate_image >/dev/null
-        update_viewer
+echo "Starting auto-generation loop every $delay seconds. Press Ctrl+C to stop." >&2
+sleep $delay
 
-        # Sleep after generating/showing the image
-        sleep $delay
-    end
+while true
+    # Generate new image immediately
+    set output_file (generate_image)
+    set -g latest_file "$output_file"  # Update latest_file
+    update_viewer
+
+    # Sleep after generating/showing the image
+    sleep $delay
 end
